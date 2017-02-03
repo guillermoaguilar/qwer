@@ -1,0 +1,9 @@
+http://stackoverflow.com/questions/29433243/convert-image-to-specific-palette-using-pil-without-dithering
+
+https://github.com/1jr/bw-dithering-script/blob/master/bw-dethering.py
+
+
+http://codegolf.stackexchange.com/questions/26554/dither-a-grayscale-image
+
+
+https://docs.python.org/2/library/imageop.html
