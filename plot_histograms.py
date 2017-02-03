@@ -9,18 +9,20 @@ from PIL import Image
 import numpy as np
 import matplotlib.pylab as plt
 
-im = Image.open('examples/grating_4bits.png')
+name = 'grating_8bits'
+
+im = Image.open('examples/%s.png' % name)
 plt.imshow(im)
 plt.show()
 
-plt.plot(np.array(im)[0,:,0])
+plt.plot(np.array(im)[0,:,0], 'o')
 plt.show()
 
 
-im = Image.open('examples/grating_4bits_dither.png')
+im = Image.open('examples/%s_dither.png' % name)
 plt.imshow(im)
 plt.show()
 
-plt.plot(np.array(im)[0,:,0])
+plt.plot(np.array(im)[0,:], 'o')
 plt.show()
 
