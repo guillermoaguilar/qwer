@@ -6,11 +6,17 @@ another try
 @author: G. Aguilar, Feb 2017
 """
 
+import time
+from datetime import timedelta
 import numpy as np
-import PIL.Image
+from PIL import Image
+
+starttime = time.time()
+
+
 fname = 'examples/grating_8bits.png'
 
-img = PIL.Image.open(fname).convert('L')
+img = Image.open(fname).convert('L')
 
 nsteps = 2**4
 
@@ -45,41 +51,45 @@ threshold = dict(zip(list(v),list(w)))
 #find_closest_palette_color(oldpixel) = floor(oldpixel / 256)
 #"""
 
-for y in range(img.size[1]):
-    for x in range(img.size[0]):
-        old = img.getpixel((x, y))
+im = np.array(img)
+
+for y in range(im.shape[1]):
+    for x in range(im.shape[0]):
+        old = im[x, y]
         new = threshold[old]
-        img.putpixel((x, y), new)
+        im[x, y] = new
         
         err = (old - new) # difference from right value
 
         nxy = (x+1, y)
         try:
-            img.putpixel(nxy, img.getpixel(nxy) + err*7.0/16.0)
+            im[nxy] = im[nxy] + err*7.0/16.0
         except IndexError:
             pass
 
         nxy = (x-1, y+1)
         try:
-            img.putpixel(nxy, img.getpixel(nxy) + err*3.0/16.0)
+            im[nxy] = im[nxy] + err*3.0/16.0
         except IndexError:
             pass
 
         nxy = (x, y+1)
         try:
-            img.putpixel(nxy, img.getpixel(nxy) + err*5.0/16.0)
+            im[nxy] = im[nxy] + err*5.0/16.0
         except IndexError:
             pass
 
         nxy = (x+1, y+1)
         try:
-            img.putpixel(nxy, img.getpixel(nxy) + err*1.0/16.0)
+            im[nxy] = im[nxy] + err*1.0/16.0
         except IndexError:
             pass
 
-     
 
 ## saves
 name= fname.split(".")[0]+'_dither.png'
-img.convert('L').save(name, optimize=True)
+img= Image.fromarray(im)
+img.convert('L').save(name)
 
+
+print "time elapsed: %s" % str(timedelta(seconds=time.time()-starttime))
